@@ -11,29 +11,28 @@ interface QueryInputProps {
   customQuery: string;
   setCustomQuery: (query: string) => void;
   handleExecuteCustomQuery: () => void;
+  favoriteQueries: string[];
+  setIsFavoritesEditing: (isEditing: boolean) => void;
 }
 
-const QueryInput: React.FC<QueryInputProps> = ({
-  tables,
-  selectedTable,
-  setSelectedTable,
-  selectedFavoriteQuery,
-  setSelectedFavoriteQuery,
-  customQuery,
-  setCustomQuery,
-  handleExecuteCustomQuery,
-}) => {
+const QueryInput: React.FC<QueryInputProps> = (props) => {
+  const {
+    tables,
+    selectedTable,
+    setSelectedTable,
+    selectedFavoriteQuery,
+    setSelectedFavoriteQuery,
+    customQuery,
+    setCustomQuery,
+    handleExecuteCustomQuery,
+    favoriteQueries,
+    setIsFavoritesEditing,
+  } = props;
+
   const handleTableSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTable(event.target.value);
     setSelectedFavoriteQuery(""); // Reset the selected favorite query when a table is selected
   };
-
-  const predefinedQueries = [
-    "SELECT * FROM products",
-    "SELECT productName, unitPrice FROM products",
-    "SELECT * FROM customers WHERE country = 'Germany'",
-    // Add more predefined queries here
-  ];
 
   const handleFavoriteQuerySelect = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -70,7 +69,7 @@ const QueryInput: React.FC<QueryInputProps> = ({
           onChange={handleFavoriteQuerySelect}
         >
           <option value="">Select a favorite query</option>
-          {predefinedQueries.map((query) => (
+          {favoriteQueries.map((query) => (
             <option key={query} value={query}>
               {query}
             </option>
@@ -78,6 +77,12 @@ const QueryInput: React.FC<QueryInputProps> = ({
         </select>
         <button className="queryInputButton" onClick={handleExecuteCustomQuery}>
           Execute Favorite Query
+        </button>
+        <button
+          className="queryInputButton"
+          onClick={() => setIsFavoritesEditing(true)}
+        >
+          Edit Queries
         </button>
       </div>
 
