@@ -47,10 +47,10 @@ const QueryInput: React.FC<QueryInputProps> = ({
   };
 
   return (
-    <div className="query-input-container">
+    <div className="queryInputContainer">
       <div>
         <select
-          className="query-input-select"
+          className="queryInputSelect"
           value={selectedTable}
           onChange={handleTableSelect}
         >
@@ -65,7 +65,7 @@ const QueryInput: React.FC<QueryInputProps> = ({
 
       <div>
         <select
-          className="query-input-select"
+          className="queryInputSelect"
           value={selectedFavoriteQuery}
           onChange={handleFavoriteQuerySelect}
         >
@@ -76,10 +76,7 @@ const QueryInput: React.FC<QueryInputProps> = ({
             </option>
           ))}
         </select>
-        <button
-          className="query-input-button"
-          onClick={handleExecuteCustomQuery}
-        >
+        <button className="queryInputButton" onClick={handleExecuteCustomQuery}>
           Execute Favorite Query
         </button>
       </div>

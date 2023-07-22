@@ -1,7 +1,7 @@
 import React from "react";
 import { useTable } from "react-table";
 import { RowData } from "../utils/csvReader";
-import "./Tables.css"; // Import the CSS file for styling
+import "./Table.css";
 
 interface TableProps {
   tableName?: string;
