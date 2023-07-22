@@ -17,11 +17,11 @@ const getAllTableNames = () => {
   return tableNames;
 };
 
-const getAllTablesData = async () => {
+const getAllTablesData = async (start: number, size = 2) => {
   const tableNames = getAllTableNames();
   const allTablesData = [];
 
-  for (const tableName of tableNames) {
+  for (const tableName of tableNames.slice(start, start + size)) {
     try {
       const data = await readCSV(tableName);
       allTablesData.push({ tableName, data });
