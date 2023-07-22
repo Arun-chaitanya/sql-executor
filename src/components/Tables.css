@@ -1,0 +1,24 @@
+.tableContainer {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+/* The first column will be sticky/fixed */
+th:first-child,
+td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: grey;
+}
+/* Optional: Add padding to the first column for better appearance */
+th:first-child,
+td:first-child {
+  padding-left: 12px;
+}
