@@ -43,8 +43,9 @@ const FAILING_QUERIES = [
 
 ## page load time of application
 I have used Google Chrome Lighthouse extension to calculate the load time of my application.
+<img width="1440" alt="Screenshot 2023-07-23 at 7 18 28 PM" src="https://github.com/Arun-chaitanya/sql-executor/assets/44457256/e30db2af-59fd-4197-93ca-573934ea091f">
+<img width="1440" alt="Screenshot 2023-07-23 at 7 18 28 PM" src="https://github.com/Arun-chaitanya/sql-executor/assets/44457256/b371c949-96fd-4429-8baa-ecaf0af45f94">
 
-<img width="1440" alt="Screenshot 2023-07-23 at 6 55 14 PM" src="https://github.com/Arun-chaitanya/sql-executor/assets/44457256/41e9a77f-c802-4147-bf46-76a9dd2cc4db">
 
 ## Optimisations
 I have added paginations when we view all the tables.
