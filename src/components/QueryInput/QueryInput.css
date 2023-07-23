@@ -30,6 +30,7 @@
   border-radius: 4px;
   outline: none;
   cursor: pointer;
+  border: #fff 1px solid;
 }
 
 .bottomButton {
@@ -40,6 +41,21 @@
   width: 100%;
   min-height: 200px;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.codeEditorInput {
+  display: block;
+  flex: 1;
+  width: 100%;
+  padding: 0 0 0 8px;
+  border-radius: 8px;
+  min-height: 40px;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  font-size: 16px;
 }
 
 .labelText {
@@ -50,5 +66,25 @@
 .dropdownsContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+}
+
+.queryBox {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.justifyCenter {
+  align-items: center;
+  justify-content: center;
+}
+
+.loadMoreBtns {
+  min-width: 300px;
+}
+
+.primaryBtn {
+  background-color: #fff;
+  color: #000;
 }

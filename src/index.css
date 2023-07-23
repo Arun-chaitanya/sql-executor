@@ -104,3 +104,12 @@ td,
 th {
   border-color: #fff !important;
 }
+
+.flex-0 {
+  flex: 0;
+}
+
+h2,
+h3 {
+  margin: 12px 0 8px;
+}

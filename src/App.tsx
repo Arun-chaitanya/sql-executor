@@ -163,6 +163,18 @@ const App: React.FC = () => {
     }
   };
 
+  const handleShowAllTables = () => {
+    setIsQueryLoading(true);
+    const searchParams = new URLSearchParams();
+    setCustomQueryResult([]);
+    setCustomQuery("");
+    setSelectedTable("");
+    setSelectedFavoriteQuery("");
+    searchParams.delete;
+    navigate({ search: searchParams.toString() });
+    setIsQueryLoading(false);
+  };
+
   if (isInitLoading) {
     return (
       <div className="appCenterContainer">
@@ -189,6 +201,7 @@ const App: React.FC = () => {
       ) : (
         <>
           <QueryInput
+            handleShowAllTables={handleShowAllTables}
             selectedTable={selectedTable}
             setSelectedTable={handleTableSelect}
             selectedFavoriteQuery={selectedFavoriteQuery}
@@ -199,6 +212,7 @@ const App: React.FC = () => {
             favoriteQueries={favoritesQueries}
             setIsFavoritesEditing={setIsEditingFavoriteQueries}
             handleAddFavorite={handleAddFavorite}
+            showAllTablesBtn={!!customQueryResult.length}
           />
           <QueryResult
             tablesData={allTablesData}

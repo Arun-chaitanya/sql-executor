@@ -14,6 +14,8 @@ interface QueryInputProps {
   favoriteQueries: string[];
   setIsFavoritesEditing: (isEditing: boolean) => void;
   handleAddFavorite: () => void;
+  handleShowAllTables: () => void;
+  showAllTablesBtn: boolean;
 }
 
 const QueryInput: React.FC<QueryInputProps> = (props) => {
@@ -28,6 +30,8 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
     favoriteQueries,
     setIsFavoritesEditing,
     handleAddFavorite,
+    handleShowAllTables,
+    showAllTablesBtn,
   } = props;
 
   const handleTableSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,7 +59,7 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
   return (
     <div className="queryInputContainer">
       <div className="dropdownsContainer">
-        <div>
+        <div className="queryBox">
           <p className="labelText">Show A Particular Table</p>
           <div className="flexRowContainer">
             <select
@@ -79,7 +83,7 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
           </div>
         </div>
 
-        <div>
+        <div className="queryBox">
           <p className="labelText">Select From Your Favorite Queries</p>
           <div>
             <select
@@ -96,7 +100,7 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
             </select>
             <div className="bottomButton flexRowContainer">
               <button
-                className="queryInputButton"
+                className="queryInputButton primaryBtn"
                 onClick={handleExecuteCustomQuery}
               >
                 Execute Favorite Query
@@ -110,31 +114,42 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
             </div>
           </div>
         </div>
+        {showAllTablesBtn && (
+          <div className="queryBox flexRowContainer">
+            <button className="queryInputButton" onClick={handleShowAllTables}>
+              Show All Tables
+            </button>
+          </div>
+        )}
       </div>
-      <div className="codeEditorContainer">
+      <div className="codeEditorContainer queryBox">
         <p className="labelText">Type Your Custom SQL Query</p>
         <CodeEditor
           language="sql"
           value={customQuery}
           onChange={handleCustomQueryChange}
           placeholder="Type your SQL query here..."
+          className="codeEditorInput"
           style={{
-            fontSize: 12,
             backgroundColor: "",
             fontFamily:
               "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
           }}
         />
-        <button
-          className="queryInputButton bottomButton"
-          onClick={handleExecuteCustomQuery}
-        >
-          Execute Custom Query
-        </button>
+
         {customQuery && (
-          <button className="queryInputButton" onClick={handleAddFavorite}>
-            Add To Favorites
-          </button>
+          <div className="flexRowContainer bottomButton">
+            <button
+              className="queryInputButton"
+              onClick={handleExecuteCustomQuery}
+            >
+              Execute Custom Query
+            </button>
+
+            <button className="queryInputButton" onClick={handleAddFavorite}>
+              Add To Favorites
+            </button>
+          </div>
         )}
       </div>
     </div>

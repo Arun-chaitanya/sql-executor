@@ -28,7 +28,7 @@ const Table: React.FC<TableProps> = ({ tableName, data }) => {
 
   return (
     <div className="tableContainer">
-      <h2>{tableName}</h2>
+      {tableName && <h3>{tableName}</h3>}
       <div className="tableWrapper">
         <table
           {...getTableProps()}

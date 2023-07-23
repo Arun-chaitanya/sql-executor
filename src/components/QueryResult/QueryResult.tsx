@@ -33,6 +33,8 @@ const QueryResult: React.FC<QueryResultProps> = ({
     // Check if customQueryResult is available (i.e., custom query was executed)
     if (customQueryResult.length > 0) {
       setDisplayedResult({ data: customQueryResult });
+    } else {
+      setDisplayedResult(null);
     }
   }, [customQueryResult]);
 
@@ -73,9 +75,14 @@ const QueryResult: React.FC<QueryResultProps> = ({
                 visible={true}
               />
             ) : (
-              <button className="queryInputButton" onClick={handleLoadMore}>
-                Load More Tables
-              </button>
+              <div className="flexRowContainer justifyCenter">
+                <button
+                  className="queryInputButton loadMoreBtns flex-0 bottomButton"
+                  onClick={handleLoadMore}
+                >
+                  Load More Tables
+                </button>
+              </div>
             ))}
         </>
       )}
