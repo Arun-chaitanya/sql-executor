@@ -1,6 +1,6 @@
 import React from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import "./QueryInput.css"; // Import the QueryInput.css file
+import "./QueryInput.css";
 import { getAllTableNames } from "../server/mockServer";
 
 interface QueryInputProps {
