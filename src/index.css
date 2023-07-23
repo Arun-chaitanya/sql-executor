@@ -1,5 +1,6 @@
 #root {
   min-width: 100vw;
+  min-height: 100vh;
 }
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -78,4 +79,28 @@ button:focus-visible {
 
 .resultsContainer {
   width: 100%;
+}
+
+.appContainer {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appCenterContainer {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+td,
+th {
+  border-color: #fff !important;
 }

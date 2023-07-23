@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { RowData } from "../utils/csvReader";
-import Table from "./Table";
+import { RowData } from "../../utils/csvReader";
+import Table from "../Table/Table";
 import { RotatingLines } from "react-loader-spinner";
 
 interface TableData {
@@ -10,11 +10,10 @@ interface TableData {
 
 interface QueryResultProps {
   tablesData: TableData[];
-  selectedTable: string;
-  selectedFavoriteQuery: string;
   customQueryResult: RowData[];
   loadMore: boolean;
   isTablesLoading: boolean;
+  isQueryLoading: boolean;
   handleLoadMore: () => void;
 }
 
@@ -24,6 +23,7 @@ const QueryResult: React.FC<QueryResultProps> = ({
   loadMore,
   handleLoadMore,
   isTablesLoading,
+  isQueryLoading,
 }) => {
   const [displayedResult, setDisplayedResult] = useState<TableData | null>(
     null
@@ -36,6 +36,16 @@ const QueryResult: React.FC<QueryResultProps> = ({
     }
   }, [customQueryResult]);
 
+  if (isQueryLoading)
+    return (
+      <RotatingLines
+        strokeColor="grey"
+        strokeWidth="2"
+        animationDuration="0.75"
+        width="40"
+        visible={true}
+      />
+    );
   return (
     <div className="resultsContainer">
       <h2>{displayedResult ? "Query Result" : "All Tables"}</h2>

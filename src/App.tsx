@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import QueryInput from "./components/QueryInput";
-import QueryResult from "./components/QueryResult";
+import QueryInput from "./components/QueryInput/QueryInput";
+import QueryResult from "./components/QueryResult/QueryResult";
 import { executeQuery, getAllTablesData } from "./server/mockServer";
-import "./AppContainer.css";
-import EditFavorites from "./components/EditFavorites";
+import EditFavorites from "./components/EditFavorites/EditFavorites";
+import { RotatingLines } from "react-loader-spinner";
 
 interface RowData {
   [key: string]: string | number;
@@ -31,19 +31,21 @@ const App: React.FC = () => {
   const [customQueryResult, setCustomQueryResult] = useState<RowData[]>([]);
   const [paginationStart, setPaginationStart] = useState<number>(0);
   const [loadMore, setLoadMore] = useState<boolean>(true);
-  const [isTablesLoading, setIsTablesLoading] = useState<boolean>(false);
+  const [isQueryLoading, setIsQueryLoading] = useState<boolean>(false);
 
   const [favoritesQueries, setFavoritesQueries] = useState<string[]>([]);
   const [isEditingFavoriteQueries, setIsEditingFavoriteQueries] =
     useState<boolean>(false);
   const [isInitQuery, setIsInitQuery] = useState<boolean>(false);
+  const [isInitLoading, setIsInitLoading] = useState<boolean>(true);
+
   function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async function fetchTables() {
     try {
-      setIsTablesLoading(true);
+      setIsQueryLoading(true);
       const data = await getAllTablesData(paginationStart);
       await sleep(500);
       if (data.length < 2) setLoadMore(false);
@@ -52,9 +54,15 @@ const App: React.FC = () => {
     } catch (e) {
       console.error(e);
     } finally {
-      setIsTablesLoading(false);
+      setIsQueryLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (customQueryResult.length || allTablesData.length) {
+      setIsInitLoading(false);
+    }
+  }, [customQueryResult, allTablesData]);
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favoriteQueries");
@@ -125,11 +133,13 @@ const App: React.FC = () => {
     saveFavoritesToLocalStorage(favorites);
   };
 
-  const handleAddFavorite = (favoriteQuery: string) => {
-    saveFavorites([...favoritesQueries, favoriteQuery]);
+  const handleAddFavorite = () => {
+    if (customQuery && !favoritesQueries.includes(customQuery))
+      saveFavorites([...favoritesQueries, customQuery]);
   };
 
   const handleExecuteCustomQuery = async () => {
+    setIsQueryLoading(true);
     const searchParams = new URLSearchParams();
     const query = customQuery || selectedFavoriteQuery || selectedTable;
     let key = "";
@@ -142,13 +152,30 @@ const App: React.FC = () => {
         if (result.statusCode === 200) {
           setCustomQueryResult(result.data);
         }
+        await sleep(300);
         searchParams.set(key, query);
         navigate({ search: searchParams.toString() });
       } catch (error) {
         console.error("Error executing custom query:", error);
+      } finally {
+        setIsQueryLoading(false);
       }
     }
   };
+
+  if (isInitLoading) {
+    return (
+      <div className="appCenterContainer">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="2"
+          animationDuration="0.75"
+          width="40"
+          visible={true}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="appContainer">
@@ -156,7 +183,6 @@ const App: React.FC = () => {
       {isEditingFavoriteQueries ? (
         <EditFavorites
           favorites={favoritesQueries}
-          onAddFavorite={handleAddFavorite}
           saveFavorites={saveFavorites}
           setIsFavoritesEditing={setIsEditingFavoriteQueries}
         />
@@ -172,15 +198,23 @@ const App: React.FC = () => {
             handleExecuteCustomQuery={handleExecuteCustomQuery}
             favoriteQueries={favoritesQueries}
             setIsFavoritesEditing={setIsEditingFavoriteQueries}
+            handleAddFavorite={handleAddFavorite}
           />
           <QueryResult
             tablesData={allTablesData}
-            selectedTable={selectedTable}
-            selectedFavoriteQuery={selectedFavoriteQuery}
             customQueryResult={customQueryResult}
             loadMore={loadMore}
             handleLoadMore={fetchTables}
-            isTablesLoading={isTablesLoading}
+            isTablesLoading={
+              isQueryLoading &&
+              !selectedFavoriteQuery &&
+              !selectedTable &&
+              !customQuery
+            }
+            isQueryLoading={
+              isQueryLoading &&
+              !!(selectedFavoriteQuery || selectedTable || customQuery)
+            }
           />
         </>
       )}
