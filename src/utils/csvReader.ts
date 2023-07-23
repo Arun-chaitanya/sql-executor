@@ -5,7 +5,7 @@ export interface RowData {
 }
 
 export async function readCSV(tableName: string): Promise<RowData[]> {
-  const csvFilePath = `/public/data/${tableName}.csv`;
+  const csvFilePath = `/data/${tableName}.csv`;
 
   try {
     const response = await fetch(csvFilePath);
