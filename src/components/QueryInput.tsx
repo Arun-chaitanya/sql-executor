@@ -1,9 +1,9 @@
 import React from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import "./QueryInput.css"; // Import the QueryInput.css file
+import { getAllTableNames } from "../server/mockServer";
 
 interface QueryInputProps {
-  tables: string[]; // An array of all table names
   selectedTable: string;
   setSelectedTable: (table: string) => void;
   selectedFavoriteQuery: string;
@@ -17,7 +17,6 @@ interface QueryInputProps {
 
 const QueryInput: React.FC<QueryInputProps> = (props) => {
   const {
-    tables,
     selectedTable,
     setSelectedTable,
     selectedFavoriteQuery,
@@ -31,18 +30,24 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
 
   const handleTableSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTable(event.target.value);
-    setSelectedFavoriteQuery(""); // Reset the selected favorite query when a table is selected
+    setSelectedFavoriteQuery("");
+    setCustomQuery("");
   };
 
   const handleFavoriteQuerySelect = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedFavoriteQuery(event.target.value);
-    setSelectedTable(""); // Reset the selected table when a favorite query is selected
+    setSelectedTable("");
+    setCustomQuery("");
   };
 
-  const handleCustomQueryChange = (value: string) => {
-    setCustomQuery(value);
+  const handleCustomQueryChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setSelectedFavoriteQuery("");
+    setSelectedTable("");
+    setCustomQuery(e.target.value);
   };
 
   return (
@@ -54,12 +59,15 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
           onChange={handleTableSelect}
         >
           <option value="">Select a table</option>
-          {tables.map((table) => (
+          {getAllTableNames().map((table) => (
             <option key={table} value={table}>
               {table}
             </option>
           ))}
         </select>
+        <button className="queryInputButton" onClick={handleExecuteCustomQuery}>
+          Show Table
+        </button>
       </div>
 
       <div>
@@ -90,7 +98,7 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
         <CodeEditor
           language="sql"
           value={customQuery}
-          onChange={(e) => handleCustomQueryChange(e.target.value)}
+          onChange={handleCustomQueryChange}
           placeholder="Type your SQL query here..."
           style={{
             fontSize: 12,

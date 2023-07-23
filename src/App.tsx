@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import QueryInput from "./components/QueryInput";
 import QueryResult from "./components/QueryResult";
 import { executeQuery, getAllTablesData } from "./server/mockServer";
@@ -10,13 +11,16 @@ interface RowData {
 }
 
 const PREDEFINED_QUERIES = [
-  "SELECT * FROM products",
+  "SELECT * FROM regions",
   "SELECT productName, unitPrice FROM products",
   "SELECT * FROM customers WHERE country = 'Germany'",
   // Add more predefined queries here
 ];
 
 const App: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [allTablesData, setAllTablesData] = useState<
     { tableName: string; data: RowData[] }[]
   >([]);
@@ -32,7 +36,7 @@ const App: React.FC = () => {
   const [favoritesQueries, setFavoritesQueries] = useState<string[]>([]);
   const [isEditingFavoriteQueries, setIsEditingFavoriteQueries] =
     useState<boolean>(false);
-
+  const [isInitQuery, setIsInitQuery] = useState<boolean>(false);
   function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -53,9 +57,10 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavoritesQueries(JSON.parse(storedFavorites));
+    const storedFavorites = localStorage.getItem("favoriteQueries");
+    const storedFavoritesArray = JSON.parse(storedFavorites || "[]");
+    if (storedFavoritesArray.length) {
+      setFavoritesQueries(storedFavoritesArray);
     } else {
       setFavoritesQueries(PREDEFINED_QUERIES);
       localStorage.setItem(
@@ -69,6 +74,35 @@ const App: React.FC = () => {
   useEffect(() => {
     fetchTables();
   }, []);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const selectedTableParam = searchParams.get("selectedTable");
+    const selectedFavoriteQueryParam = searchParams.get(
+      "selectedFavoriteQuery"
+    );
+    const customQueryParam = searchParams.get("customQuery");
+
+    if (selectedTableParam) {
+      setSelectedTable(selectedTableParam);
+    } else if (selectedFavoriteQueryParam) {
+      setSelectedFavoriteQuery(selectedFavoriteQueryParam);
+    } else if (customQueryParam) {
+      setCustomQuery(customQueryParam);
+    }
+    if (searchParams || selectedTableParam || selectedFavoriteQueryParam) {
+      setIsInitQuery(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isInitQuery) {
+      (async () => {
+        await handleExecuteCustomQuery();
+        setIsInitQuery(false);
+      })();
+    }
+  }, [isInitQuery]);
 
   const handleTableSelect = (table: string) => {
     setSelectedTable(table);
@@ -96,12 +130,20 @@ const App: React.FC = () => {
   };
 
   const handleExecuteCustomQuery = async () => {
-    if (customQuery) {
+    const searchParams = new URLSearchParams();
+    const query = customQuery || selectedFavoriteQuery || selectedTable;
+    let key = "";
+    if (selectedTable) key = "selectedTable";
+    else if (selectedFavoriteQuery) key = "selectedFavoriteQuery";
+    else if (customQuery) key = "customQuery";
+    if (query) {
       try {
-        const result = await executeQuery(customQuery);
-        setCustomQueryResult(result);
-        setSelectedFavoriteQuery(""); // Reset the selected favorite query
-        setSelectedTable(""); // Reset the selected table
+        const result = await executeQuery(query, !!selectedTable);
+        if (result.statusCode === 200) {
+          setCustomQueryResult(result.data);
+        }
+        searchParams.set(key, query);
+        navigate({ search: searchParams.toString() });
       } catch (error) {
         console.error("Error executing custom query:", error);
       }
@@ -121,7 +163,6 @@ const App: React.FC = () => {
       ) : (
         <>
           <QueryInput
-            tables={allTablesData.map((table) => table.tableName)}
             selectedTable={selectedTable}
             setSelectedTable={handleTableSelect}
             selectedFavoriteQuery={selectedFavoriteQuery}

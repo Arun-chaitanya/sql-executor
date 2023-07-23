@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { RowData } from "../utils/csvReader";
-import { executeQuery } from "../server/mockServer";
 import Table from "./Table";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -21,8 +20,6 @@ interface QueryResultProps {
 
 const QueryResult: React.FC<QueryResultProps> = ({
   tablesData,
-  selectedTable,
-  selectedFavoriteQuery,
   customQueryResult,
   loadMore,
   handleLoadMore,
@@ -33,43 +30,11 @@ const QueryResult: React.FC<QueryResultProps> = ({
   );
 
   useEffect(() => {
-    if (
-      !selectedTable &&
-      !selectedFavoriteQuery &&
-      customQueryResult.length === 0
-    ) {
-      // If no specific table is selected, no favorite query is selected, and no custom query is executed
-      // Display all tables one after another
-      setDisplayedResult(null); // Reset to show all tables
-    } else if (selectedTable) {
-      // Check if a specific table is selected from the dropdown
-      const tableData = tablesData.find(
-        (table) => table.tableName === selectedTable
-      );
-      if (tableData) {
-        setDisplayedResult(tableData);
-      }
-    } else if (selectedFavoriteQuery) {
-      // Check if a favorite query is selected from the dropdown
-      executeFavoriteQuery(selectedFavoriteQuery);
-    }
-  }, [selectedTable, selectedFavoriteQuery, customQueryResult, tablesData]);
-
-  useEffect(() => {
     // Check if customQueryResult is available (i.e., custom query was executed)
     if (customQueryResult.length > 0) {
       setDisplayedResult({ data: customQueryResult });
     }
   }, [customQueryResult]);
-
-  const executeFavoriteQuery = async (query: string) => {
-    try {
-      const result = await executeQuery(query);
-      setDisplayedResult({ data: result });
-    } catch (error) {
-      console.error("Error executing favorite query:", error);
-    }
-  };
 
   return (
     <div className="resultsContainer">
