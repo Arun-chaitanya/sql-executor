@@ -18,18 +18,17 @@ export const getAllTableNames = () => {
 };
 
 const FAILING_QUERIES = [
-  "UPDATE employees SET department = 'HR' WHERE salary > 50000;",
-  "INSERT INTO products (productName, unitPrice, categoryID) VALUES ('Widget', 10.99, 1);",
-  "DELETE FROM customers WHERE lastPurchaseDate < '2023-01-01';",
-  "CREATE TABLE orders (orderID INT, customerID INT, orderDate DATE);",
-  "DROP TABLE products;",
-  "ALTER TABLE employees ADD COLUMN jobTitle VARCHAR(50);",
-  "CREATE INDEX idx_product_name ON products (productName);",
-  "SELECT firstName, lastName FROM employees WHERE jobTitle = 'Manager';",
-  "UPDATE orders SET orderStatus = 'Shipped' WHERE orderDate BETWEEN '2023-01-01' AND '2023-06-30';",
-  "DELETE FROM suppliers WHERE country = 'China';",
+  "update employees set department = 'hr' where salary > 50000;",
+  "insert into products (productname, unitprice, categoryid) values ('widget', 10.99, 1);",
+  "delete from customers where lastpurchasedate < '2023-01-01';",
+  "create table orders (orderid int, customerid int, orderdate date);",
+  "drop table products;",
+  "alter table employees add column jobtitle varchar(50);",
+  "create index idx_product_name on products (productname);",
+  "select firstname, lastname from employees where jobtitle = 'manager';",
+  "update orders set orderstatus = 'shipped' where orderdate between '2023-01-01' and '2023-06-30';",
+  "delete from suppliers where country = 'china';",
 ];
-
 const getAllTablesData = async (start: number, size = 2) => {
   const tableNames = getAllTableNames();
   const allTablesData = [];
@@ -54,7 +53,8 @@ const executeQuery = async (query: string, isTableSearch = false) => {
     return { statusCode: 200, data: result };
   }
 
-  if (FAILING_QUERIES.includes(trimmedQuery)) {
+  console.log(trimmedQuery);
+  if (FAILING_QUERIES.includes(trimmedQuery.toLowerCase())) {
     return { statusCode: 400, data: [] };
   }
 
