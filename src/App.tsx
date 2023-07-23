@@ -5,6 +5,7 @@ import QueryResult from "./components/QueryResult/QueryResult";
 import { executeQuery, getAllTablesData } from "./server/mockServer";
 import EditFavorites from "./components/EditFavorites/EditFavorites";
 import { RotatingLines } from "react-loader-spinner";
+import Swal from "sweetalert2";
 
 interface RowData {
   [key: string]: string | number;
@@ -151,6 +152,14 @@ const App: React.FC = () => {
         const result = await executeQuery(query, !!selectedTable);
         if (result.statusCode === 200) {
           setCustomQueryResult(result.data);
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "You have executed a invalid query!",
+            showConfirmButton: false,
+            timer: 500,
+          });
         }
         await sleep(300);
         searchParams.set(key, query);
