@@ -158,7 +158,7 @@ const App: React.FC = () => {
             icon: "warning",
             title: "You have executed a invalid query!",
             showConfirmButton: false,
-            timer: 500,
+            timer: 1000,
           });
         }
         await sleep(300);
