@@ -17,14 +17,12 @@ const EditFavorites: React.FC<EditFavoritesProps> = ({
   const [editedIndex, setEditedIndex] = useState<number>(-1);
   const [newFavoriteQuery, setNewFavoriteQuery] = useState<string>("");
 
-  // Handler for removing a favorite query from the favorites list
   const onRemoveFavorite = (index: number) => {
     const updatedFavorites = [...favorites];
     updatedFavorites.splice(index, 1);
     saveFavorites(favorites);
   };
 
-  // Handler for updating a favorite query in the favorites list
   const onUpdateFavorite = (index: number, updatedQuery: string) => {
     const updatedFavorites = [...favorites];
     updatedFavorites[index] = updatedQuery;

@@ -108,11 +108,11 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
             minHeight: 200,
           }}
         />
-        <button
-          className="query-input-button"
-          onClick={handleExecuteCustomQuery}
-        >
+        <button className="queryInputButton" onClick={handleExecuteCustomQuery}>
           Execute Custom Query
+        </button>
+        <button className="queryInputButton" onClick={handleExecuteCustomQuery}>
+          Add To Favorites
         </button>
       </div>
     </div>

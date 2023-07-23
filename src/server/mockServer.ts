@@ -71,11 +71,9 @@ const executeQuery = async (query: string, isTableSearch = false) => {
     // For non-SELECT queries, generate a hash number between 1 and 10
     const hashNumber = Math.floor((hashCode(query) % 10) + 1);
 
-    // Retrieve the corresponding table name from the predefined list
     const tableNames = getAllTableNames();
     const tableName = tableNames[hashNumber - 1];
 
-    // Fetch the data for the selected table
     const result = await readCSV(tableName);
     return { statusCode: 200, data: result };
   }
