@@ -15,16 +15,17 @@
 ## Details about the app
 
 1) This app by default renders all the tables available.
-2) The rows are horizontally scrollable.
-3) It can execute SQL queries to query the result(The results are mock).
-4) It has the ability to save SQL queries to your favourite SQL queries list.
-5) You can also edit/delete the SQL queries in your favourite list.
-6) The favourite list is persisted. So even if you reload, you will have the same favourite list.
-7) The current stage of the app is also persisted using searchParams. So let us say you have searched for a query, and you reload, you can still see the same results.
-8) As the state is persisted with the help of URL searchParams, you can share the link of the app, any they will be able to see the same results.
-9) I have hashed the queries, so that even though the data is mock data, for a particular query, you will see the result.
-10) The loaders are added for better UI/UX queue.
-11) I have manually added some QUERIES, for which the app will say that the queries are invalid. Those are as following
+2) I have added sleep function for every query so that you can see how the loader looks like when the api is called is real-world scenario. (Please don't think that it is a delay :P)
+3) The rows are horizontally scrollable.
+4) It can execute SQL queries to query the result(The results are mock).
+5) It has the ability to save SQL queries to your favourite SQL queries list.
+6) You can also edit/delete the SQL queries in your favourite list.
+7) The favourite list is persisted. So even if you reload, you will have the same favourite list.
+8) The current stage of the app is also persisted using searchParams. So let us say you have searched for a query, and you reload, you can still see the same results.
+9) As the state is persisted with the help of URL searchParams, you can share the link of the app, any they will be able to see the same results.
+10) I have hashed the queries, so that even though the data is mock data, for a particular query, you will see the result.
+11) The loaders are added for better UI/UX queue.
+12) I have manually added some QUERIES, for which the app will say that the queries are invalid. Those are as following
 ```js
 const FAILING_QUERIES = [
   "UPDATE employees SET department = 'HR' WHERE salary > 50000;",
