@@ -48,7 +48,7 @@ const App: React.FC = () => {
     try {
       setIsQueryLoading(true);
       const data = await getAllTablesData(paginationStart);
-      await sleep(500);
+      await sleep(300);
       if (data.length < 2) setLoadMore(false);
       setPaginationStart(paginationStart + 2);
       setAllTablesData([...allTablesData, ...data]);
