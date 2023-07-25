@@ -140,7 +140,7 @@ const QueryInput: React.FC<QueryInputProps> = (props) => {
         {customQuery && (
           <div className="flexRowContainer bottomButton">
             <button
-              className="queryInputButton"
+              className="queryInputButton primaryBtn"
               onClick={handleExecuteCustomQuery}
             >
               Execute Custom Query
