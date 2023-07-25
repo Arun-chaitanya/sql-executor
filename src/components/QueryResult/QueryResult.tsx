@@ -67,13 +67,15 @@ const QueryResult: React.FC<QueryResultProps> = ({
           ))}
           {loadMore &&
             (isTablesLoading ? (
-              <RotatingLines
-                strokeColor="grey"
-                strokeWidth="2"
-                animationDuration="0.75"
-                width="40"
-                visible={true}
-              />
+              <div className="flexRowContainer justifyCenter">
+                <RotatingLines
+                  strokeColor="grey"
+                  strokeWidth="2"
+                  animationDuration="0.75"
+                  width="40"
+                  visible={true}
+                />
+              </div>
             ) : (
               <div className="flexRowContainer justifyCenter">
                 <button

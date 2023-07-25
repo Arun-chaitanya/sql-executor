@@ -113,3 +113,10 @@ h2,
 h3 {
   margin: 12px 0 8px;
 }
+
+@media (prefers-color-scheme: light) {
+  td,
+  th {
+    border-color: #242424 !important;
+  }
+}

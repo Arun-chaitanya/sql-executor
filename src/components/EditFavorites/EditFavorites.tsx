@@ -49,9 +49,9 @@ const EditFavorites: React.FC<EditFavoritesProps> = ({
     ) {
       onUpdateFavorite(editedIndex, newFavoriteQuery);
       setNewFavoriteQuery("");
-      setEditedIndex(-1);
-      setIsEditing(false);
     }
+    setEditedIndex(-1);
+    setIsEditing(false);
   };
 
   return (
@@ -97,7 +97,9 @@ const EditFavorites: React.FC<EditFavoritesProps> = ({
         </ul>
       </div>
 
-      <button onClick={() => setIsFavoritesEditing(false)}>Done</button>
+      <button className="doneBtn" onClick={() => setIsFavoritesEditing(false)}>
+        Done
+      </button>
     </>
   );
 };

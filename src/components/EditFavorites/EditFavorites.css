@@ -13,6 +13,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  @media (prefers-color-scheme: light) {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 }
 
 .favoritesEditInput {
@@ -23,6 +26,9 @@
   height: 100%;
   box-sizing: border-box;
   border: 1px solid #fff;
+  @media (prefers-color-scheme: light) {
+    border: 1px solid #242424;
+  }
 }
 
 .favoritesContainer {
@@ -35,5 +41,13 @@
 }
 
 .favoritesString {
+  font-weight: 500;
   margin: 0;
+}
+
+.doneBtn {
+  border: 1px solid #fff;
+  @media (prefers-color-scheme: light) {
+    border: 1px solid #000;
+  }
 }

@@ -31,6 +31,9 @@
   outline: none;
   cursor: pointer;
   border: #fff 1px solid;
+  @media (prefers-color-scheme: light) {
+    border: 1px solid #242424;
+  }
 }
 
 .bottomButton {
@@ -87,4 +90,8 @@
 .primaryBtn {
   background-color: #fff;
   color: #000;
+  @media (prefers-color-scheme: light) {
+    color: #fff;
+    background-color: #000;
+  }
 }

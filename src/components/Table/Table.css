@@ -7,6 +7,10 @@
   overflow-x: auto;
   border-right: 1px solid #fff;
   border-left: 1px solid #fff;
+  @media (prefers-color-scheme: light) {
+    border-right: 1px solid #242424;
+    border-left: 1px solid #242424;
+  }
 }
 
 /* The first column will be sticky/fixed */
