@@ -1,4 +1,4 @@
-# SQL Executor App
+# SQL Executor App 
 
 ## Packages which are used for this app
 
@@ -40,7 +40,7 @@ const FAILING_QUERIES = [
   "DELETE FROM suppliers WHERE country = 'China';",
 ];
 ```
-## JavaScript framework you chose: React+TS
+## JavaScript framework you chose: React+TS (Vite App)
 
 ## page load time of application
 I have used Google Chrome Lighthouse extension to calculate the load time of my application.
