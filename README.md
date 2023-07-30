@@ -43,6 +43,7 @@ const FAILING_QUERIES = [
 ## JavaScript framework you chose: React+TS (Vite App)
 
 ## page load time of application
+
 I have used Google Chrome Lighthouse extension to calculate the load time of my application.
 <img width="1440" alt="Screenshot 2023-07-23 at 7 20 44 PM" src="https://github.com/Arun-chaitanya/sql-executor/assets/44457256/10340224-31de-4732-9e3f-5b3a2f23f377">
 
