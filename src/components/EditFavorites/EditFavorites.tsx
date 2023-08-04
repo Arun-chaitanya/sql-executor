@@ -17,30 +17,35 @@ const EditFavorites: React.FC<EditFavoritesProps> = ({
   const [editedIndex, setEditedIndex] = useState<number>(-1);
   const [newFavoriteQuery, setNewFavoriteQuery] = useState<string>("");
 
+  //remove query from favorite list when clicked on "REMOVE"
   const onRemoveFavorite = (index: number) => {
     const updatedFavorites = [...favorites];
     updatedFavorites.splice(index, 1);
     saveFavorites(favorites);
   };
 
+  //generic function to update favorite list
   const onUpdateFavorite = (index: number, updatedQuery: string) => {
     const updatedFavorites = [...favorites];
     updatedFavorites[index] = updatedQuery;
     saveFavorites(updatedFavorites);
   };
 
+  //function to go from editing mode to list view mode
   const handleStopEditing = () => {
     setIsEditing(false);
     setEditedIndex(-1);
     setNewFavoriteQuery("");
   };
 
+  //function to start editing mode
   const handleEditFavorite = (index: number) => {
     setEditedIndex(index);
     setNewFavoriteQuery(favorites[index]);
     setIsEditing(true);
   };
 
+  //function to confirm the save the edited query
   const handleUpdateFavorite = () => {
     if (
       editedIndex >= 0 &&

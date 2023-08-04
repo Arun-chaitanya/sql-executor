@@ -9,6 +9,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({ tableName, data }) => {
+  //extracting column headers name
   const columns = React.useMemo(
     () =>
       data.length > 0

@@ -22,28 +22,42 @@ const App: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // all tables data
   const [allTablesData, setAllTablesData] = useState<
     { tableName: string; data: RowData[] }[]
   >([]);
+
+  // all inputs data
   const [selectedTable, setSelectedTable] = useState<string>("");
   const [selectedFavoriteQuery, setSelectedFavoriteQuery] =
     useState<string>("");
   const [customQuery, setCustomQuery] = useState<string>("");
+
+  //all inputs result
   const [customQueryResult, setCustomQueryResult] = useState<RowData[]>([]);
+
+  //manange paginations
   const [paginationStart, setPaginationStart] = useState<number>(0);
   const [loadMore, setLoadMore] = useState<boolean>(true);
+
+  //managing all inputs result loading
   const [isQueryLoading, setIsQueryLoading] = useState<boolean>(false);
 
+  // managing favorite queries
   const [favoritesQueries, setFavoritesQueries] = useState<string[]>([]);
   const [isEditingFavoriteQueries, setIsEditingFavoriteQueries] =
     useState<boolean>(false);
+
+  //managing initial page load functionalities like getting queries from params and init loading
   const [isInitQuery, setIsInitQuery] = useState<boolean>(false);
   const [isInitLoading, setIsInitLoading] = useState<boolean>(true);
 
+  //sleep to mock the delay of api call
   function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  //function to fetch all tables with pagination
   async function fetchTables() {
     try {
       setIsQueryLoading(true);
@@ -59,12 +73,14 @@ const App: React.FC = () => {
     }
   }
 
+  //useEffect to manage initial page loading state
   useEffect(() => {
     if (customQueryResult.length || allTablesData.length) {
       setIsInitLoading(false);
     }
   }, [customQueryResult, allTablesData]);
 
+  //getting cached favorite queries on initial page load
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favoriteQueries");
     const storedFavoritesArray = JSON.parse(storedFavorites || "[]");
@@ -80,10 +96,12 @@ const App: React.FC = () => {
     return () => saveFavoritesToLocalStorage(favoritesQueries);
   }, []);
 
+  //getting tables list on initial page load
   useEffect(() => {
     fetchTables();
   }, []);
 
+  //if user lands with a shared url containing search params in it
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const selectedTableParam = searchParams.get("selectedTable");
@@ -113,6 +131,7 @@ const App: React.FC = () => {
     }
   }, [isInitQuery]);
 
+  //handling input value changes
   const handleTableSelect = (table: string) => {
     setSelectedTable(table);
   };
@@ -125,20 +144,24 @@ const App: React.FC = () => {
     setCustomQuery(query);
   };
 
+  //reusable function to save favorites to local storage
   const saveFavoritesToLocalStorage = (favorites: string[]) => {
     localStorage.setItem("favoriteQueries", JSON.stringify(favorites));
   };
 
+  //reusable function to save all the favorite queries to the state
   const saveFavorites = (favorites: string[]) => {
     setFavoritesQueries(favorites);
     saveFavoritesToLocalStorage(favorites);
   };
 
+  //adding a query to favorite queries
   const handleAddFavorite = () => {
     if (customQuery && !favoritesQueries.includes(customQuery))
       saveFavorites([...favoritesQueries, customQuery]);
   };
 
+  //function to execute any type of query
   const handleExecuteCustomQuery = async () => {
     setIsQueryLoading(true);
     const searchParams = new URLSearchParams();
@@ -172,6 +195,7 @@ const App: React.FC = () => {
     }
   };
 
+  //resetting everything to show the all tables view
   const handleShowAllTables = () => {
     setIsQueryLoading(true);
     const searchParams = new URLSearchParams();
@@ -184,6 +208,7 @@ const App: React.FC = () => {
     setIsQueryLoading(false);
   };
 
+  //ui for full page loading state
   if (isInitLoading) {
     return (
       <div className="appCenterContainer">
